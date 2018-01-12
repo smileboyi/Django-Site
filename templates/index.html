@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>hello world!</h1>
+  <!-- 表单直接就提交在当前页面地址上 -->
+  <form action="/index/" method="post">
+    <!-- 因为django有一个跨站请求保护机制，我们要加入一行{% csrf_token %} -->
+    {% csrf_token %}
+    <input type="text" name="username" />
+    <input type="password" name="password" />
+    <input type="submit" value="提交" />
+  </form>
+
+  <h1>用户展示：</h1>
+  <table border="1">
+      <thead>
+          <th>用户名</th>
+          <th>密码</th>
+      </thead>
+      <tbody>
+          {% for line in data %}
+          <tr>
+              <td>{{ line.user }}</td>
+              <td>{{ line.pwd }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+
+  <script src="/static/js/zepto.min.js"></script>
+</body>
+</html>
