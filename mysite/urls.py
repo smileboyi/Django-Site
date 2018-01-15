@@ -35,5 +35,13 @@ urlpatterns = [
 
     # 分发（使用include）到二级路由上（上级到下级的匹配顺序）
     url(r'^polls/', include('polls.urls')),
-    url(r'^admin/', admin.site.urls),
+
+    # 管理站点，使用前先python manage.py createsuperuser，创建一个管理者
+    # 一般不会使用简单的管理站点url，不要太暴露
+    # url(r'^admin/', admin.site.urls),
+    # 使用别人不容易猜到的url
+    url(r'^polls/set/', admin.site.urls),
 ]
+
+
+

@@ -1,0 +1,7 @@
+<h1>{{ question.question_text }}</h1>
+<ul>
+<!-- 使用Python的代码poll.choice_set.all(),它将返回一组可迭代的Choice对象 -->
+{% for choice in question.choice_set.all %}
+    <li>{{ choice.choice_text }}</li>
+{% endfor %}
+</ul>

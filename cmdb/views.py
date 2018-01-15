@@ -36,4 +36,4 @@ def index(request):
 
   # 当你想返回一个html时，就用render方法
   # 第一个参数固定，第二个参数就是指定的文件,第三个参数是字典
-  return render(request, 'index.html',{"data": user_list})
+  return render(request, 'cmdb/index.html',{"data": user_list})
