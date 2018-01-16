@@ -21,18 +21,13 @@ from django.conf.urls import include, url
 from cmdb import views    
 
 urlpatterns = [
-    # '''
-    # cmdb
-    # '''
-
+    ##### cmdb #####
     # admin后台的路由(直接导入视图函数)
+    # 如果是一级路由，前面加上^
     path(r'cmdb/', views.index),
     
 
-    # '''
-    # polls
-    # '''
-
+    ##### polls #####
     # 分发（使用include）到二级路由上（上级到下级的匹配顺序）
     url(r'^polls/', include('polls.urls')),
 

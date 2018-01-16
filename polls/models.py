@@ -24,7 +24,16 @@ class Question(models.Model):
 
   # 用于判断问卷是否最近时间段内发布度的
   def was_published_recently(self):
-    return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    # 有bug的版本（用于测试）
+    # return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    now = timezone.now()
+    return now - datetime.timedelta(days=1) <= self.pub_date <= now
+
+  # 站点展示的时候，可以给这个字段提供样式
+  was_published_recently.admin_order_field = 'pub_date'
+  was_published_recently.boolean = True
+  was_published_recently.short_description = 'Published recently?'
+
 
 # python_2_unicode_compatible 会自动做一些处理去适应python不同的版本，以便有更好地兼容性。 
 @python_2_unicode_compatible   # 当你想支持python2版本的时候才需要这个装饰器

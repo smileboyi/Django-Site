@@ -1,12 +1,22 @@
+{% load static %}
+<!-- static静态文件夹可以放在任何位置上 -->
+<!-- 配合上面使用，杜绝硬编码，这样这个static可以随便修改 -->
+<link rel="stylesheet" type="text/css" href="{% static 'polls/css/style.css' %}" />
+
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
-    <!-- 不要在模板里面使用硬编码 -->
+    <!-- 不要在url里面使用硬编码 -->
     <!-- <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
-     <!-- 给url设置一个别名，用url正则匹配这个别名 -->
-    <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
+    <!-- 
+        1.给url设置一个别名，用url正则匹配这个别名
+        2.正则匹配加上命名空间polls,使用这个命名空间下的URLconf匹配
+    -->
+    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+<!-- 使用硬编码引入 -->
+<script src="/static/polls/js/zepto.min.js"></script>
