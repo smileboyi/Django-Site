@@ -8,8 +8,8 @@
 </head>
 <body>
   <h1>hello world!</h1>
-  <!-- 表单直接就提交在当前页面地址上 -->
-  <form action="/index/" method="post">
+  <!-- 表单直接就提交在当前页面地址上(不要写成/cmdb) -->
+  <form action="/cmdb/" method="post">
     <!-- 因为django有一个跨站请求保护机制，我们要加入一行{% csrf_token %} -->
     {% csrf_token %}
     <input type="text" name="username" />

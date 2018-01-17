@@ -1,8 +1,13 @@
 from django.shortcuts import render
-# from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse
 from cmdb import models  # models和数据库相关
 
 # Create your views here.
+
+def index(request):
+  return HttpResponse('Welcome come to index page')
+
+
 
 # # 创建一个用户信息列表，预定义2个数据(如果服务重启，那么数据就会回到原始状态)
 # user_list = [
@@ -13,7 +18,7 @@ from cmdb import models  # models和数据库相关
 
 
 # request参数必须有，名字是类似self的默认规则，可以改，它封装了用户请求的所有内容。
-def index(request):
+def cmdb(request):
   # request.POST,
   # request.GET
 

@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<!-- 修改站点模板，所有Django默认的admin模板都可以被重写。从源代码目录将HTML文件拷贝至你自定义的目录内，然后修改文件。 -->
+<!-- <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1> -->
+<h1 id="site-name"><a href="{% url 'admin:index' %}">投票站点管理界面</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -62,6 +62,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # render时要指定html文件的地址(DIRS是一个元祖，后面逗号不能省略)
+        # 模板的搜索路径。当加载Django模板时，会在DIRS中进行查找。
         'DIRS': [os.path.join(BASE_DIR,'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
