@@ -40,6 +40,10 @@ urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     # 使用别人不容易猜到的url
     url(r'^polls/set/', admin.site.urls),
+
+
+    ##### upload #####
+    url(r'^upload/', include('upload.urls')),
 ]
 
 

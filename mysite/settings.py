@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #注册app,数据库就会对它创建表
     'cmdb',
     'polls',
+    'upload'
 ]
 
 MIDDLEWARE = [
