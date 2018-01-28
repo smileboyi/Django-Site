@@ -30,7 +30,7 @@ def upload_file(request):
       return HttpResponse("no files for upload!")
 
     # 需要在应用下面建立一个upload文件夹，存放上传的文件
-    destination = open(os.path.join(BASE_DIR, myFile.name),'wb+')    # 打开特定的文件进行二进制的写操作  
+    destination = open(os.path.join(BASE_DIR,'upload/', myFile.name),'wb+')    # 打开特定的文件进行二进制的写操作  
     for chunk in myFile.chunks():      # 分块写入文件  
       destination.write(chunk)  
     destination.close()  
