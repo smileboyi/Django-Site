@@ -59,11 +59,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mysite.urls'
 
+# Django可以配置一个或多个模板引擎（语言），也可以不用引擎。
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # render时要指定html文件的地址(DIRS是一个元祖，后面逗号不能省略)
         # 模板的搜索路径。当加载Django模板时，会在DIRS中进行查找。
+        # 建议在每个APP的的模版子目录下都建立一个子目录来唯一对应这个APP，
+        # 这样做可以增强你的APP的可用性。 将所有的模版文件放在根模版目录下会引发混淆。
         'DIRS': [os.path.join(BASE_DIR,'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {

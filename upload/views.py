@@ -106,10 +106,15 @@ def csv_view2(request):
   )
   # 使用模板
   t = loader.get_template('upload/my_template_name.txt')
-  c = Context({
-    'data': csv_data,
-  })
-  response.write(t.render(c))
+
+  # TypeError: context must be a dict rather than Context.
+  # c = Context({
+  #   'data': csv_data,
+  # })
+  # response.write(t.render(c))
+  
+  # 用法：Template.render(context=None, request=None)
+  response.write(t.render(context = {'data': csv_data}))
   return response
 
 
