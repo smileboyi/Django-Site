@@ -1,8 +1,13 @@
 from django.contrib import admin
 # 引入应用的models
+# 决定哪些模型需要在admin内进行管理，在admin.py文件中注册它们。
 from .models import Choice, Question   
 
 # Register your models here.
+
+"""
+用python manage.py createsuperuser命令创建管理员账户。
+"""
 
 ## 1.将models注册到站点进行管理(然后站点将提供Question管理的服务页面)
 # admin.site.register(Question)
