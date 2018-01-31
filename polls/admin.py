@@ -40,8 +40,19 @@ class QuestionAdmin(admin.ModelAdmin):
   # 添加字段搜索功能
   search_fields = ['question_text']
 
-
+# 注册的时候，将原模型和ModelAdmin耦合起来
 admin.site.register(Question, QuestionAdmin)
+"""
+  装饰器的方式连接模型和ModelAdmin
+  @admin.register(Author)
+  class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+  装饰器可以接收一些模型类作为参数，以及一个可选的关键字参数site（如果你使用的不是默认的AdminSite）
+  @admin.register(Author, Reader, Editor, site=custom_admin_site)
+  class PersonAdmin(admin.ModelAdmin):
+    pass
+"""
 
 # b.Choice对象单独建一个表单页
 # admin.site.register(Choice)
