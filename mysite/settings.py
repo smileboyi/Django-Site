@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions', # 会话框架
     'django.contrib.messages', # 消息框架
     'django.contrib.staticfiles', # 静态文件管理框架
+    'django.contrib.admindocs', # admindocs应用可以从模型、视图、模板标签等地方获得文档内容
+    'django.contrib.sitemaps', # 网站地图，不需要建立数据表
 
     #注册app,数据库就会对它创建表
     'cmdb',

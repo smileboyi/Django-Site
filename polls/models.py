@@ -3,6 +3,7 @@ from django.db import models
 # Django推荐使用timezone.now()代替python内置的datetime.datetime.now()
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
+from django.urls import reverse
 
 # 运行python manage.py makemigrations为改动创建迁移记录；
 # 运行python manage.py migrate，将操作同步到数据库。
@@ -33,6 +34,11 @@ class Question(models.Model):
   was_published_recently.admin_order_field = 'pub_date'
   was_published_recently.boolean = True
   was_published_recently.short_description = 'Published recently?'
+
+  def get_absolute_url(self):
+    print(self.pk)
+    return reverse('polls:index',kwargs={"id":'1'})
+    # return reverse('polls:index',kwargs={'pk':self.pk})
 
 
 # python_2_unicode_compatible 会自动做一些处理去适应python不同的版本，以便有更好地兼容性。 
