@@ -1,0 +1,21 @@
+{% for user in users %}
+    {# 每个"contact"都是一个Contact模型对象. #}
+    {{ user.user|upper }}<br />
+{% endfor %}
+
+{# 分页标签的HTML代码 #}
+<div class="pagination">
+    <span class="step-links">
+        {% if users.has_previous %}
+            <a href="?page={{ users.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ users.number }} of {{ users.paginator.num_pages }}.
+        </span>
+
+        {% if users.has_next %}
+            <a href="?page={{ users.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>

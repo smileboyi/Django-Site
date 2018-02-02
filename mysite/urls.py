@@ -39,7 +39,8 @@ urlpatterns = [
 	# admin后台的路由(直接导入视图函数)
 	# 如果是一级路由，前面加上^
 	path(r'cmdb/', views.cmdb),
-	path(r'cmdb/xml', views.cmdbxml),
+	path(r'cmdb/xml', views.cmdb_xml),
+	path(r'cmdb/listing', views.user_show),
 
 	##### polls #####
 	# 分发（使用include）到二级路由上（上级到下级的匹配顺序）

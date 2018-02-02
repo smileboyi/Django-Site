@@ -7,8 +7,8 @@ import django.dispatch
 from django.dispatch import receiver
 
 from django.core import serializers
-
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
@@ -64,10 +64,28 @@ def cmdb(request):
 
 
 # 序列化UserInfo模型数据
-def cmdbxml(request):
+def cmdb_xml(request):
   data = serializers.serialize("xml", models.UserInfo.objects.all())
   # 通过网页源码查看xml
   return HttpResponse(data)
+
+
+def user_show(request):
+  user_list = models.UserInfo.objects.all()
+  paginator = Paginator(user_list, 5) # 每页显示25条
+
+  page = request.GET.get('page')
+  try:
+    # page()返回指定页面的对象列表,相当于querySet
+    users = paginator.page(page)
+  except PageNotAnInteger:
+    # 如果请求的页数不是整数，返回第一页。
+    users = paginator.page(1)
+  except EmptyPage:
+    # 如果请求的页数不在合法的页数范围内，返回结果的最后一页。
+    users = paginator.page(paginator.num_pages)
+  return render(request, 'cmdb/list.html', {'users': users})
+
 
 
 
