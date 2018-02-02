@@ -35,10 +35,11 @@ class Question(models.Model):
   was_published_recently.boolean = True
   was_published_recently.short_description = 'Published recently?'
 
+  """
+  # 使用get_absolute_url返回路径(用于网站地图)
   def get_absolute_url(self):
-    print(self.pk)
-    return reverse('polls:index',kwargs={"id":'1'})
-    # return reverse('polls:index',kwargs={'pk':self.pk})
+    return reverse('polls:index')
+  """
 
 
 # python_2_unicode_compatible 会自动做一些处理去适应python不同的版本，以便有更好地兼容性。 

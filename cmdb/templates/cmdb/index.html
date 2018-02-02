@@ -7,7 +7,20 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>hello world!</h1>
+	<!-- 后台消息 -->
+	{% if messages %}
+	<ul class="messages">
+			<!-- messages是一个列表 -->
+			{% for message in messages %}
+			<!-- 通过message.tags拿到每个消息的CSS样式 -->
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+					{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+					{{ message }}
+			</li>
+			{% endfor %}
+	</ul>
+	{% endif %}
+
   <!-- 表单直接就提交在当前页面地址上(不要写成/cmdb) -->
   <form action="/cmdb/" method="post">
     <!-- 因为django有一个跨站请求保护机制，我们要加入一行{% csrf_token %} -->
@@ -19,18 +32,18 @@
 
   <h1>用户展示：</h1>
   <table border="1">
-      <thead>
-          <th>用户名</th>
-          <th>密码</th>
-      </thead>
-      <tbody>
-          {% for line in data %}
-          <tr>
-              <td>{{ line.user }}</td>
-              <td>{{ line.pwd }}</td>
-          </tr>
-          {% endfor %}
-      </tbody>
+    <thead>
+        <th>用户名</th>
+        <th>密码</th>
+    </thead>
+    <tbody>
+        {% for line in data %}
+        <tr>
+            <td>{{ line.user }}</td>
+            <td>{{ line.pwd }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
   </table>
 </body>
 </html>
