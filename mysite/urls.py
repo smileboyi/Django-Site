@@ -62,6 +62,11 @@ urlpatterns = [
 	url(r'^upload/', include('upload.urls')),
 
 
+	##### login #####
+	url(r'^login/', include('login.urls')),
+	url(r'^login/set/', admin.site.urls),
+
+
 	##### sitemap #####
 	# 当用户访问/sitemap.xml时，Django将生成并返回一个网站地图。
 	# 如果sitemap.xml位于根目录中，它会引用网站中的任何URL。 但是如果站点地图位于/content/sitemap.xml，则它只能引用以/content/开头的网址。
