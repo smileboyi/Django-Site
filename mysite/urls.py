@@ -55,7 +55,7 @@ urlpatterns = [
 	# 一般不会使用简单的管理站点url，不要太暴露
 	# url(r'^admin/', admin.site.urls),
 	# 使用别人不容易猜到的url
-	url(r'^polls/set/', admin.site.urls),
+	url(r'^mysite/set/', admin.site.urls),
 
 
 	##### upload #####
@@ -64,7 +64,6 @@ urlpatterns = [
 
 	##### login #####
 	url(r'^login/', include('login.urls')),
-	url(r'^login/set/', admin.site.urls),
 
 
 	##### sitemap #####

@@ -3,6 +3,8 @@ from . import views
 
 app_name = 'login'
 urlpatterns = [
-	# 使用类视图形式
-	# url(r'^$', views.IndexView.as_view(), name='index'),
+	url(r'^index/', views.index),
+	url(r'^login/', views.login),
+	url(r'^register/', views.register),
+	url(r'^logout/', views.logout),
 ]
