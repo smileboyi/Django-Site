@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'polls',
     'upload',
     'login',
+
+    'captcha',  #　图片验证码，需要建立自己的数据库表
 ]
 
 MIDDLEWARE = [

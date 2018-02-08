@@ -75,6 +75,9 @@ urlpatterns = [
 	##### sitemap #####
 	# 信号视图
 	url(r'^signal/$', views.create_signal),
+
+	##### captcha #####
+	url(r'^captcha', include('captcha.urls'))
 ]
 
 
