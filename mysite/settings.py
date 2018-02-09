@@ -161,3 +161,18 @@ STATICFILES_DIRS = (
     # 第二个参数和静态资源文件对应
     os.path.join(BASE_DIR, 'static'),
 )
+
+
+
+# 邮件配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sina.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'xxxxx@sina.com'
+EMAIL_HOST_PASSWORD = 'xxxxxx'
+
+# 注册有效期天数
+CONFIRM_DAYS = 7
+
+
+

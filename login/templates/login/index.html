@@ -1,6 +1,7 @@
 {% extends 'login/base.html' %}
 {% block title %}主页{% endblock %}
 {% block content %}
+	<!-- 根据登录与否的不同，显示不同的内容 -->
 	{% if request.session.is_login %}
 	<h1>你好,{{ request.session.user_name }}！欢迎回来！</h1>
 	{% else %}
