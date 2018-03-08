@@ -50,6 +50,10 @@ INSTALLED_APPS = [
     'login',
 
     'captcha',  #　图片验证码，需要建立自己的数据库表
+
+    # 使用rest框架
+    'rest_framework',
+    'snippets.apps.SnippetsConfig', # 如果使用的django版本低于1.9，直接使用snippets来代替snippets.apps.SnippetsConfig即可
 ]
 
 MIDDLEWARE = [
@@ -94,26 +98,26 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     # 默认使用django自带的sqlite数据库
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 
     # 使用mysql数据库
     # 百度把if version < (1, 3, 3)语句注释掉
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        # 要先创建好数据库,值是创建好的数据库名称
-        'NAME': 'mysite',  
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': '',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        },
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     # 要先创建好数据库,值是创建好的数据库名称
+    #     'NAME': 'mysite',  
+    #     'HOST': 'localhost',
+    #     'USER': 'root',
+    #     'PASSWORD': '',
+    #     'PORT': '3306',
+    #     'OPTIONS': {
+    #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    #         'charset': 'utf8mb4',
+    #     },
+    # }
 }
 
 

@@ -22,7 +22,7 @@ from django.contrib.sitemaps.views import sitemap
 from polls.sitemaps import PollsSitemap, VoteSitemap
 from polls.models import Question
 #导入对应app的views文件
-from cmdb import views    
+from cmdb import views
 
 
 sitemaps={
@@ -64,6 +64,10 @@ urlpatterns = [
 
 	##### login #####
 	url(r'^login/', include('login.urls')),
+	
+
+	##### snippets #####
+	url(r'^snippets/', include('snippets.urls')),
 
 
 	##### sitemap #####
