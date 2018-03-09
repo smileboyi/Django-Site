@@ -125,7 +125,7 @@ def snippet_detail(request, pk, format=None):
 
 
 ###########################
-# 版本三:使用类来编写view
+# 版本三:使用类来编写view，跟基于方法的视图差别不多
 ###########################
 """
 from snippets.models import Snippet
@@ -181,20 +181,25 @@ class SnippetDetail(APIView):
 
 
 ###########################
-# 版本三:使用mixins来编写view
+# 版本四:使用mixins来编写view
 ###########################
+"""
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
+# 我们使用的创建/检索/更新/删除操作对于我们创建的任何模型支持的API视图将非常相似。这些常见的行为是在REST框架的mixin类中实现的。
 from rest_framework import mixins
+# 和from django.views import generic一样，提供类视图
 from rest_framework import generics
 
 
 class SnippetList(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
+  # 使用mixins需要设置queryset和serializer_class
+  # queryset：要操作的数据集；serializer_class：指定一个序列化类
   queryset = Snippet.objects.all()
   serializer_class = SnippetSerializer
-
+  # mixin类提供.list()和.create()操作。然后，我们将明确的绑定get和post方法绑定到适当的操作。
   def get(self, request, *args, **kwargs):
     return self.list(request, *args, **kwargs)
 
@@ -208,7 +213,7 @@ class SnippetDetail(mixins.RetrieveModelMixin,
                     generics.GenericAPIView):
   queryset = Snippet.objects.all()
   serializer_class = SnippetSerializer
-
+  # GenericAPIView类来提供核心功能，并混入增加提供.retrieve()，.update()和.destroy()行动。
   def get(self, request, *args, **kwargs):
     return self.retrieve(request, *args, **kwargs)
 
@@ -218,11 +223,28 @@ class SnippetDetail(mixins.RetrieveModelMixin,
   def delete(self, request, *args, **kwargs):
     return self.destroy(request, *args, **kwargs)
 
+"""
 
 
+###########################
+# 版本五:使用class-based（泛类）来编写view
+# 人生苦短，我用python
+###########################
+from snippets.models import Snippet
+from snippets.serializers import SnippetSerializer
+# REST框架提供了一组已经混合（mixins）的通用视图
+from rest_framework import generics
+
+# generics.ListCreateAPIView实际上继承了mixins中的mixins.ListModelMixin,mixins.CreateModelMixin,
+# 等于在又把mixins类根据get post put delete请求方式重新封装了一层。
+class SnippetList(generics.ListCreateAPIView):
+  queryset = Snippet.objects.all()
+  serializer_class = SnippetSerializer
 
 
-
+class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
+  queryset = Snippet.objects.all()
+  serializer_class = SnippetSerializer
 
 
 
