@@ -42,6 +42,24 @@ class SnippetSerializer(serializers.Serializer):
 根据model里的字段自动定义字段集,简单的实现 create() and update() 方法
 """
 class SnippetSerializer(serializers.ModelSerializer):
+  # 新增（权限）
+  # source参数用于控制那个属性被用来填充字段，并且可以指向序列化实例上的任何属性。 
+  # ReadOnlyField总是只读的，并且将用于序列化表示，但不会用于在反序列化时更新模型实例。另一种CharField（read_only = True）。
+  owner = serializers.ReadOnlyField(source='owner.username')
+
   class Meta:
     model = Snippet
-    fields = ('id', 'title', 'code', 'linenos', 'language', 'style')
+    fields = ('id', 'title', 'code', 'linenos', 'language', 'style', 'owner')
+
+
+# 新增（权限）
+from django.contrib.auth.models import User
+class UserSerializer(serializers.ModelSerializer):
+  # 因为'snippets'（owner字段，子表）是User模型（父表）上的反向关系，所以在使用ModelSerializer类时，它不会被默认包含，因此我们需要为它添加一个显式字段。
+  # 反向关系：从父表找子表的信息，但是父表中没有子表的信息。通过关联字段related_name查找
+  snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
+
+  class Meta:
+    model = User
+    # 一般情况下序列化得到的外键的内容只是id，所以将snippets添加到序列列表中
+    fields = ('id', 'username', 'snippets') 

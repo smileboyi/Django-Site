@@ -235,20 +235,44 @@ from snippets.serializers import SnippetSerializer
 # REST框架提供了一组已经混合（mixins）的通用视图
 from rest_framework import generics
 
+# 新增（权限）
+from rest_framework import permissions
+from snippets.permissions import IsOwnerOrReadOnly
+
+
 # generics.ListCreateAPIView实际上继承了mixins中的mixins.ListModelMixin,mixins.CreateModelMixin,
 # 等于在又把mixins类根据get post put delete请求方式重新封装了一层。
 class SnippetList(generics.ListCreateAPIView):
   queryset = Snippet.objects.all()
   serializer_class = SnippetSerializer
+  # 新增（权限）
+  permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+  # 新增（权限）
+  # 覆盖.perform_create（）方法，允许我们修改实例保存的方式，并处理在传入请求或请求的URL中隐含的任何信息。
+  def perform_create(self, serializer):
+    # 当我们的serializer里create()方法被调用时，将自动添加owner字段和验证合法的请求数据
+    serializer.save(owner=self.request.user)
 
 
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = Snippet.objects.all()
   serializer_class = SnippetSerializer
+  # 新增（权限）
+  permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
 
 
+# 新增（权限）
+from django.contrib.auth.models import User
+from snippets.serializers import UserSerializer
 
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 
