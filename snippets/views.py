@@ -262,17 +262,18 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
   permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
 
 
+
 # 新增（权限）
 from django.contrib.auth.models import User
 from snippets.serializers import UserSerializer
 
 class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+  queryset = User.objects.all()
+  serializer_class = UserSerializer
 
 class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+  queryset = User.objects.all()
+  serializer_class = UserSerializer
 
 
 
@@ -281,5 +282,26 @@ class UserDetail(generics.RetrieveAPIView):
 
 
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from rest_framework import renderers
+# 为我们的API的根创建一个端点
+@api_view(['GET'])
+def api_root(request, format=None):
+  return Response({
+    # 使用rest框架的reverse函数来返回完全限定的URL
+    'users': reverse('user-list', request=request, format=format),
+    'snippets': reverse('snippet-list', request=request, format=format)
+  })
+
+# 为高亮显示的代码段创建端点
+class SnippetHighlight(generics.GenericAPIView):
+  queryset = Snippet.objects.all()
+  renderer_classes = (renderers.StaticHTMLRenderer,)
+
+  def get(self, request, *args, **kwargs):
+    snippet = self.get_object()
+    return Response(snippet.highlighted)
 
 

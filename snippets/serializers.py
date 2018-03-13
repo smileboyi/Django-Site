@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
+from django.contrib.auth.models import User
 
 
 """
@@ -41,6 +42,7 @@ class SnippetSerializer(serializers.Serializer):
 重要的是要记住 ModelSerializer 不做任何格外的配置，它只是创建序列化类的快捷方式：
 根据model里的字段自动定义字段集,简单的实现 create() and update() 方法
 """
+"""
 class SnippetSerializer(serializers.ModelSerializer):
   # 新增（权限）
   # source参数用于控制那个属性被用来填充字段，并且可以指向序列化实例上的任何属性。 
@@ -62,4 +64,31 @@ class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
     # 一般情况下序列化得到的外键的内容只是id，所以将snippets添加到序列列表中
-    fields = ('id', 'username', 'snippets') 
+    fields = ('id', 'username', 'snippets')
+
+"""
+
+
+"""
+
+使用HyperlinkedModelSerializer代替ModelSerializer,实例之间用超链接形式
+HyperlinkedModelSerializer不会自动包含pk field,HyperlinkedModelSerializer会自动包括url field
+
+"""
+class SnippetSerializer(serializers.HyperlinkedModelSerializer):
+  owner = serializers.ReadOnlyField(source='owner.username')
+  # https://stackoverflow.com/questions/27484344/assertion-error-at-django-rest-framework
+  highlight = serializers.HyperlinkedIdentityField(view_name='snippet-highlight', format='html',read_only=True)
+
+  class Meta:
+    model = Snippet
+    fields = ('url', 'highlight', 'owner','title', 'code', 'linenos', 'language', 'style')
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+  # 关系使用的是HyperlinkedRelatedField而不是PrimaryKeyRelatedField
+  snippets = serializers.HyperlinkedRelatedField(many=True, view_name='snippet-detail',read_only=True)
+
+  class Meta:
+    model = User
+    fields = ('url', 'username', 'snippets')

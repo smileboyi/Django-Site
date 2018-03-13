@@ -179,4 +179,10 @@ EMAIL_HOST_PASSWORD = 'xxxxxx'
 CONFIRM_DAYS = 7
 
 
-
+# 分页（snippets应用）
+# REST框架中的设置都命名为单个字典设置，名为“REST_FRAMEWORK”，这有助于保持它们与其他项目设置分离
+# 分页设置: http://www.django-rest-framework.org/api-guide/pagination/
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination', # 使用全局分页变量
+    'PAGE_SIZE': 10
+}
