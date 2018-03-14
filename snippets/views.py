@@ -230,6 +230,7 @@ class SnippetDetail(mixins.RetrieveModelMixin,
 # 版本五:使用class-based（泛类）来编写view
 # 人生苦短，我用python
 ###########################
+"""
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
 # REST框架提供了一组已经混合（mixins）的通用视图
@@ -262,7 +263,6 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
   permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
 
 
-
 # 新增（权限）
 from django.contrib.auth.models import User
 from snippets.serializers import UserSerializer
@@ -276,24 +276,8 @@ class UserDetail(generics.RetrieveAPIView):
   serializer_class = UserSerializer
 
 
-
-
-
-
-
-
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
 from rest_framework import renderers
-# 为我们的API的根创建一个端点
-@api_view(['GET'])
-def api_root(request, format=None):
-  return Response({
-    # 使用rest框架的reverse函数来返回完全限定的URL
-    'users': reverse('user-list', request=request, format=format),
-    'snippets': reverse('snippet-list', request=request, format=format)
-  })
 
 # 为高亮显示的代码段创建端点
 class SnippetHighlight(generics.GenericAPIView):
@@ -304,4 +288,62 @@ class SnippetHighlight(generics.GenericAPIView):
     snippet = self.get_object()
     return Response(snippet.highlighted)
 
+"""
+
+###########################
+# 为我们的API的根创建一个端点(版本五、版本六--A)
+###########################
+"""
+from rest_framework.reverse import reverse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+@api_view(['GET'])
+def api_root(request, format=None):
+  return Response({
+    # 使用rest框架的reverse函数来返回完全限定的URL
+    'users': reverse('user-list', request=request, format=format),
+    'snippets': reverse('snippet-list', request=request, format=format)
+  })
+
+"""
+
+
+
+###########################
+# 版本六A/B:将UserList和UserDetail重构为UserViewset，将snippetList、SnippetDetail和SnippetHighlight重构为SnippetViewSet
+# REST框架包括一个用于抽象处理的ViewSets，允许开发人员集中精力对API的状态和交互进行建模，并根据常见约定自动处理URL构造。
+# Viewset类和View类相似，但提供的是read或update, 而不是http动作get或put.一个Viewset类仅仅可以绑定一组方法处理程序，
+# 当它被实例化为一组视图时，通常通过使用一个处理为您的URL conf的复杂性的路由器类。
+###########################
+from snippets.serializers import SnippetSerializer,UserSerializer
+from rest_framework import permissions,viewsets,renderers,generics
+from rest_framework.decorators import detail_route
+from snippets.permissions import IsOwnerOrReadOnly
+from django.contrib.auth.models import User
+from snippets.models import Snippet
+
+
+class SnippetViewSet(viewsets.ModelViewSet):
+  
+  # This viewset automatically provides `list`, `create`, `retrieve`,`update` and `destroy` actions.
+  # Additionally we also provide an extra `highlight` action.
+  queryset = Snippet.objects.all()
+  serializer_class = SnippetSerializer
+  permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
+
+  # 我们还使用@detail_route装饰器创建了一个名为高亮的自定义操作。此装饰器可用于添加不适合标准创建/更新/删除样式的任何自定义端点。
+  @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+  def highlight(self, request, *args, **kwargs):
+    snippet = self.get_object()
+    return Response(snippet.highlighted)
+
+  def perform_create(self, serializer):
+    serializer.save(owner=self.request.user)
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+  # This viewset automatically provides `list` and `detail` actions.
+  queryset = User.objects.all()
+  serializer_class = UserSerializer
 
